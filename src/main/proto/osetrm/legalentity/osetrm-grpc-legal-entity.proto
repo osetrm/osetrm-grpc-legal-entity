@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.osetrm.grpc.legalentity";
+option java_outer_classname = "LegalEntityGrpcProto";
+
+package osetrm.legalentity;
+
+service LegalEntityGrpc {
+  rpc findByGlobalLegalEntityIdentifier (FindByGlobalLegalEntityIdentifierRequest) returns (FindByGlobalLegalEntityIdentifierResponse) {}
+}
+
+message FindByGlobalLegalEntityIdentifierRequest {
+  string global_legal_entity_identifier = 1;
+}
+
+message FindByGlobalLegalEntityIdentifierResponse {
+  LegalEntity legal_entity = 1;
+}
+
+message LegalEntity {
+  string global_legal_entity_identifier = 1;
+  string legal_name = 2;
+}

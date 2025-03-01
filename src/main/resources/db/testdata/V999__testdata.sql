@@ -1,0 +1,1 @@
+insert into legal_entity values (1, '08C2IQ0VM1B2PBTVHC56', 'RED HAT, INC');

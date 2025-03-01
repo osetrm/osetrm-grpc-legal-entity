@@ -1,0 +1,51 @@
+quarkus:
+  banner:
+    enabled: false
+  hibernate-orm:
+    database:
+      generation: none
+  grpc:
+    server:
+      use-separate-server: false
+
+'%dev':
+  quarkus:
+    log:
+      level: INFO
+      category:
+        "com.osetrm":
+          level: DEBUG
+    hibernate-orm:
+      log:
+        sql: true
+    flyway:
+      migrate-at-start: true
+      locations: db/migration,db/testdata
+
+'%test':
+  quarkus:
+    log:
+      level: INFO
+      category:
+        "com.osetrm":
+          level: DEBUG
+    hibernate-orm:
+      log:
+        sql: true
+    flyway:
+      migrate-at-start: true
+      locations: db/migration,db/testdata
+
+'%prod':
+  quarkus:
+    log:
+      level: INFO
+      category:
+        "com.osetrm":
+          level: INFO
+    hibernate-orm:
+      log:
+        sql: false
+    flyway:
+      migrate-at-start: true
+      locations: db/migration
