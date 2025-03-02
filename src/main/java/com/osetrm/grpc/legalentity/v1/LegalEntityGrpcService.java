@@ -1,5 +1,8 @@
-package com.osetrm.grpc.legalentity;
+package com.osetrm.grpc.legalentity.v1;
 
+import com.google.protobuf.Empty;
+import com.osetrm.grpc.legalentity.LegalEntityEntity;
+import com.osetrm.grpc.legalentity.LegalEntityRepository;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import io.quarkus.grpc.GrpcService;
@@ -24,6 +27,15 @@ public class LegalEntityGrpcService implements LegalEntityGrpc {
                 .onItem().ifNull().failWith(() -> new StatusRuntimeException(Status.NOT_FOUND))
                 .map(this::toLegalEntity)
                 .map(legalEntity -> FindByGlobalLegalEntityIdentifierResponse.newBuilder().setLegalEntity(legalEntity).build());
+    }
+
+    @Override
+    @WithSession
+    public Uni<Empty> createLegalEntity(CreateLegalEntityRequest request) {
+        var entity = new LegalEntityEntity();
+        entity.globalLegalEntityIdentifier = request.getLegalEntity().getGlobalLegalEntityIdentifier();
+        entity.legalName = request.getLegalEntity().getLegalName();
+        return legalEntityRepository.persist(entity).replaceWith(Empty.getDefaultInstance());
     }
 
     private LegalEntity toLegalEntity(LegalEntityEntity entity) {

@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotEmpty;
 
 import java.util.Objects;
 
-
 @Entity(name = "LegalEntity")
 @Table(name = "legal_entity")
 public class LegalEntityEntity {

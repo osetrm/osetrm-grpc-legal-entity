@@ -1,13 +1,16 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "com.osetrm.grpc.legalentity";
+option java_package = "com.osetrm.grpc.legalentity.v1";
 option java_outer_classname = "LegalEntityGrpcProto";
 
-package osetrm.legalentity;
+package osetrm.legalentity.v1;
+
+import "google/protobuf/empty.proto";
 
 service LegalEntityGrpc {
   rpc findByGlobalLegalEntityIdentifier (FindByGlobalLegalEntityIdentifierRequest) returns (FindByGlobalLegalEntityIdentifierResponse) {}
+  rpc CreateLegalEntity (CreateLegalEntityRequest) returns (google.protobuf.Empty) {}
 }
 
 message FindByGlobalLegalEntityIdentifierRequest {
@@ -15,6 +18,10 @@ message FindByGlobalLegalEntityIdentifierRequest {
 }
 
 message FindByGlobalLegalEntityIdentifierResponse {
+  LegalEntity legal_entity = 1;
+}
+
+message CreateLegalEntityRequest {
   LegalEntity legal_entity = 1;
 }
 
