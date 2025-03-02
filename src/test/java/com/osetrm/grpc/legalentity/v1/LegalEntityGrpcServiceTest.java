@@ -51,4 +51,18 @@ class LegalEntityGrpcServiceTest {
         assertNotNull(response);
     }
 
+    @Test
+    void createLegalEntityFailInvalidGlobalLegalEntityIdentifier() {
+        var request = CreateLegalEntityRequest.newBuilder()
+                .setLegalEntity(LegalEntity.newBuilder()
+                        .setGlobalLegalEntityIdentifier(RandomStringUtils.insecure().nextAlphanumeric(10))
+                        .setLegalName(RandomStringUtils.insecure().nextAlphabetic(20))
+                        .build())
+                .build();
+        StatusRuntimeException thrown = Assertions.assertThrows(StatusRuntimeException.class, () -> {
+            legalEntityGrpc.createLegalEntity(request).await().atMost(Duration.ofSeconds(5));
+        });
+        assertEquals(Status.INVALID_ARGUMENT.getCode(), thrown.getStatus().getCode());
+    }
+
 }

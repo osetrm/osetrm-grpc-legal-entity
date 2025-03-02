@@ -13,9 +13,11 @@ import jakarta.persistence.NoResultException;
 @GrpcService
 public class LegalEntityGrpcService implements LegalEntityGrpc {
 
+    private final LegalEntityValidator legalEntityValidator;
     private final LegalEntityRepository legalEntityRepository;
 
-    public LegalEntityGrpcService(LegalEntityRepository legalEntityRepository) {
+    public LegalEntityGrpcService(LegalEntityValidator legalEntityValidator, LegalEntityRepository legalEntityRepository) {
+        this.legalEntityValidator = legalEntityValidator;
         this.legalEntityRepository = legalEntityRepository;
     }
 
@@ -32,6 +34,7 @@ public class LegalEntityGrpcService implements LegalEntityGrpc {
     @Override
     @WithSession
     public Uni<Empty> createLegalEntity(CreateLegalEntityRequest request) {
+        legalEntityValidator.validate(request.getLegalEntity());
         var entity = new LegalEntityEntity();
         entity.globalLegalEntityIdentifier = request.getLegalEntity().getGlobalLegalEntityIdentifier();
         entity.legalName = request.getLegalEntity().getLegalName();
